@@ -1,6 +1,12 @@
 ﻿using System;
 
-string[] namevoc = System.IO.File.ReadAllLines(@"..\..\..\us.txt");
+string[] namevoc;
+try {
+    namevoc = System.IO.File.ReadAllLines("us.txt");
+} catch {
+    Console.WriteLine("Error reading us.txt.");
+    return;
+}
 
 Console.WriteLine(">Enter name:");
 string name = Console.ReadLine();
@@ -26,7 +32,7 @@ foreach (string vname in namevoc)
     }
 
 int Levenstein(string a, string b, int curr) {
-    if (curr > 3)
+    if (curr >= 3)
         return curr;
     if (a.Length == 0)
         return b.Length;
@@ -41,7 +47,7 @@ int Levenstein(string a, string b, int curr) {
 
 int[] lev = new int[namevoc.Length];
 int l = 1;
-while (l <= 3) {
+while (l < 3) {
     int i = 0;
     while (i < namevoc.Length) {
         if (lev[i] == 0)
@@ -49,7 +55,7 @@ while (l <= 3) {
         if (lev[i] == l) {
             Console.WriteLine($">Did you mean “{namevoc[i]}”? Y/N");
             string answer = Console.ReadLine();
-            if (answer == "Y") {
+            if (answer.ToUpper() == "Y") {
                 Console.WriteLine($"Hello, {namevoc[i]}!");
                 return;
             }
